@@ -1,0 +1,69 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+add_newline = false
+command_timeout = 1000
+
+# Prompt format
+format = """
+$os\
+$username\
+$hostname\
+$kubernetes\
+$directory\
+$git_branch\
+"""
+
+
+# Drop default prompt characters
+[character]
+success_symbol = ''
+error_symbol = ''
+
+
+# ---
+
+[os]
+format = '[$symbol]($style) '   
+disabled = false
+
+[os.symbols]
+Windows = ''
+Arch = '󰣇'
+Ubuntu = ''
+Macos = '󰀵'
+
+
+# ---
+
+# Shows the username
+[username]
+style_user = 'red bold'
+style_root = 'black bold'
+format = '[$user]($style) '
+disabled = false
+show_always = true
+
+# Shows the hostname
+[hostname]
+ssh_only = false
+format = 'on [$hostname](yellow bold) '
+disabled = false
+
+# Shows current directory
+[directory]
+truncation_length = 2
+truncation_symbol = '…/'
+style = "white italic"
+home_symbol = '󰋜 ~'
+read_only_style = 'purple bold'
+read_only = '  '
+format = 'at [$path]($style)[$read_only]($read_only_style) '
+
+
+# ---
+
+# Shows current git branch
+[git_branch]
+symbol = ' '
+format = '[$symbol](white)[$branch]($style) '
+style = 'black bold'
