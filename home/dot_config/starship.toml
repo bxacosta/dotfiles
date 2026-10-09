@@ -1,0 +1,114 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# A subset of Starship's default prompt, drawn as bracketed segments: status
+# symbol, user (only as root or over SSH), OS icon and directory, git branch
+# and status, project language version and command duration.
+#
+# Colors are the terminal's 16 ANSI colors, defined once in the Windows
+# Terminal "Aurora" scheme (.chezmoidata/terminal.yaml):
+#   bright-white text     bright-black muted    bright-blue accent
+#   bright-purple git     bright-cyan  success  red         error
+add_newline = false
+format = """
+$character\
+$username\
+$os\
+$directory\
+$git_branch\
+$git_status\
+$nodejs\
+$bun\
+$deno\
+$python\
+$golang\
+$java\
+$dotnet\
+$rust\
+$cmd_duration\
+"""
+
+# Only shown as root or over SSH, like the default prompt
+[username]
+style_user = "bright-white bold"
+style_root = "red"
+format = "[\\[](bright-black)[$user]($style)[\\]](bright-black) "
+
+# Opens the directory segment, so Windows and WSL prompts are easy to tell apart
+[os]
+disabled = false
+style = "bright-white"
+format = "[\\[](bright-black)[$symbol]($style)"
+
+[os.symbols]
+Windows = "\U000f0372 "
+Ubuntu = " "
+Linux = " "
+
+# Closes the segment opened by [os]
+[directory]
+style = "bright-white"
+format = "[$path]($style)[$read_only]($read_only_style)[\\]](bright-black) "
+truncation_length = 3
+truncation_symbol = "…/"
+home_symbol = "~"
+read_only = " \uf456"
+read_only_style = "bright-black"
+
+[git_branch]
+format = "[\\[](bright-black)[$symbol](bright-white)[$branch]($style)[\\]](bright-black) "
+symbol = "\U000f02a2 "
+style = "bright-blue bold"
+
+[git_status]
+style = "bright-purple"
+format = '([\[$all_status$ahead_behind\]]($style) )'
+
+# Project language: one segment, same style for every language
+[nodejs]
+symbol = "\ue718 "
+style = "bright-blue"
+format = "[\\[](bright-black)[$symbol](bright-white)[($version)]($style)[\\]](bright-black) "
+
+[bun]
+symbol = "\ue76f "
+style = "bright-blue"
+format = "[\\[](bright-black)[$symbol](bright-white)[($version)]($style)[\\]](bright-black) "
+
+[deno]
+symbol = "\ue7c0 "
+style = "bright-blue"
+format = "[\\[](bright-black)[$symbol](bright-white)[($version)]($style)[\\]](bright-black) "
+
+[python]
+symbol = "\ue235 "
+style = "bright-blue"
+format = "[\\[](bright-black)[$symbol](bright-white)[$pyenv_prefix($version)( \\($virtualenv\\))]($style)[\\]](bright-black) "
+
+[golang]
+symbol = "\ue627 "
+style = "bright-blue"
+format = "[\\[](bright-black)[$symbol](bright-white)[($version)]($style)[\\]](bright-black) "
+
+[java]
+symbol = "\ue738 "
+style = "bright-blue"
+format = "[\\[](bright-black)[$symbol](bright-white)[($version)]($style)[\\]](bright-black) "
+
+[dotnet]
+symbol = "\ue77f "
+style = "bright-blue"
+format = "[\\[](bright-black)[$symbol](bright-white)[($version)]($style)[\\]](bright-black) "
+
+[rust]
+symbol = "\U000f1617 "
+style = "bright-blue"
+format = "[\\[](bright-black)[$symbol](bright-white)[($version)]($style)[\\]](bright-black) "
+
+[cmd_duration]
+min_time = 2000
+style = "bright-blue"
+format = "[\\[](bright-black)[\U000f199f ](bright-white)[$duration]($style)[\\]](bright-black) "
+
+[character]
+success_symbol = "[\U000f0ae2](bright-cyan)"
+error_symbol = "[\U000f0ae2](red)"

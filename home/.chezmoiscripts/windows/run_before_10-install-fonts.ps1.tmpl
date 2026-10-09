@@ -1,0 +1,49 @@
+{{- /*
+  Installs the fonts in .chezmoidata/fonts.yaml for the current user (no admin).
+  Installed fonts are detected while rendering: if nothing is missing the script
+  renders empty, so chezmoi skips it and `chezmoi diff` stays clean.
+*/ -}}
+{{- if eq .chezmoi.os "windows" -}}
+{{-   $missing := list -}}
+{{-   range .fonts -}}
+{{-     $user := glob (joinPath (env "LOCALAPPDATA") "Microsoft/Windows/Fonts" .filePattern) -}}
+{{-     $system := glob (joinPath (env "WINDIR") "Fonts" .filePattern) -}}
+{{-     if not (or $user $system) -}}
+{{-       $missing = append $missing . -}}
+{{-     end -}}
+{{-   end -}}
+{{-   if $missing -}}
+$ErrorActionPreference = 'Stop'
+
+$fontDir = Join-Path $env:LOCALAPPDATA 'Microsoft\Windows\Fonts'
+$regKey = 'HKCU:\Software\Microsoft\Windows NT\CurrentVersion\Fonts'
+New-Item -ItemType Directory -Path $fontDir -Force | Out-Null
+
+{{     range $missing -}}
+Write-Host 'Installing {{ .name }}...'
+$tmp = Join-Path ([IO.Path]::GetTempPath()) ([IO.Path]::GetRandomFileName())
+New-Item -ItemType Directory -Path $tmp | Out-Null
+try {
+    $zip = Join-Path $tmp 'font.zip'
+    Invoke-WebRequest -Uri {{ .url | quote }} -OutFile $zip -UseBasicParsing
+    $checksums = (Invoke-WebRequest -Uri {{ .checksums | quote }} -UseBasicParsing).Content
+    if ($checksums -is [byte[]]) { $checksums = [Text.Encoding]::UTF8.GetString($checksums) }
+    $expected = $checksums -split '\r?\n' | Where-Object { $_ -match '^([0-9a-f]{64})\s+{{ base .url | regexQuoteMeta }}$' } | ForEach-Object { $Matches[1] }
+    if (-not $expected) { throw "No checksum for {{ base .url }} in {{ .checksums }}" }
+    $hash = (Get-FileHash $zip -Algorithm SHA256).Hash
+    if ($hash -ne $expected) { throw "SHA256 mismatch for {{ .name }}: $hash" }
+
+    Expand-Archive -Path $zip -DestinationPath $tmp
+    foreach ($file in Get-ChildItem $tmp -Filter {{ .filePattern | quote }}) {
+        $target = Join-Path $fontDir $file.Name
+        Copy-Item $file.FullName $target -Force
+        New-ItemProperty -Path $regKey -Name "$($file.BaseName) (TrueType)" -Value $target -PropertyType String -Force | Out-Null
+    }
+    Write-Host '{{ .name }} installed. Restart Windows Terminal to use it.'
+} finally {
+    Remove-Item $tmp -Recurse -Force
+}
+
+{{     end -}}
+{{-   end -}}
+{{- end -}}

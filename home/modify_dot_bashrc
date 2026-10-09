@@ -1,0 +1,25 @@
+{{- /* chezmoi:modify-template */ -}}
+{{- /*
+  Only makes sure ~/.bashrc starts Starship; the rest of the file (Ubuntu's
+  defaults, mise, anything machine-specific) is left untouched. A line added
+  earlier by this template (found by its comment) is kept up to date; a
+  Starship init written by hand is left alone.
+
+  In bash the line goes last: Starship keeps hooks already in PROMPT_COMMAND
+  (like mise's), so they keep working.
+*/ -}}
+{{- $comment := "# Starship prompt (added by chezmoi)" -}}
+{{- $line := `command -v starship >/dev/null && eval "$(starship init bash)"` -}}
+{{- $content := .chezmoi.stdin -}}
+{{- if contains $comment $content -}}
+{{-   $content = replaceAllRegex (printf "(%s\n)[^\n]*" (regexQuoteMeta $comment)) (printf "${1}%s" $line) $content -}}
+{{- else if not (contains "starship init bash" $content) -}}
+{{-   if $content -}}
+{{-     if not (hasSuffix "\n" $content) -}}
+{{-       $content = printf "%s\n" $content -}}
+{{-     end -}}
+{{-     $content = printf "%s\n" $content -}}
+{{-   end -}}
+{{-   $content = printf "%s%s\n%s\n" $content $comment $line -}}
+{{- end -}}
+{{- $content -}}

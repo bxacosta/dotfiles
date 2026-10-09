@@ -1,0 +1,9 @@
+# Packages installed by .chezmoiscripts/windows/run_before_20-install-packages.ps1.tmpl
+#   id:      winget package id (installed from the winget source, latest version)
+#   command: executable used to detect an existing install
+packages:
+  winget:
+    - id: Fastfetch-cli.Fastfetch
+      command: fastfetch
+    - id: Starship.Starship
+      command: starship

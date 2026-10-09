@@ -1,0 +1,8 @@
+{{- if eq .chezmoi.os "windows" }}
+# ~/.bashrc on Windows belongs to Git Bash, which is not managed
+.bashrc
+{{- else }}
+# Windows-only targets
+AppData
+Documents
+{{- end }}

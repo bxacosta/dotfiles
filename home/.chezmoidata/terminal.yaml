@@ -1,0 +1,116 @@
+# Managed Windows Terminal settings.
+# Merged into the existing settings.json (see modify_settings.json):
+# anything not listed here is left as Windows Terminal has it.
+windowsTerminal:
+
+  # Values set in profiles.defaults (dot-notation keys).
+  profileDefaults:
+    colorScheme: Aurora       # defined in schemes below
+    font.face: CaskaydiaMono Nerd Font
+    opacity: 90
+    startingDirectory: null   # null = inherit the launching process's directory
+
+  # Settings for specific profiles, matched by source and name (stable across
+  # machines, unlike the generated GUIDs). Only the listed keys are set.
+  profiles:
+    - match: { source: Windows.Terminal.PowershellCore, name: PowerShell }
+      set:
+        commandline: pwsh.exe -NoLogo   # skip the "PowerShell 7.x" banner
+
+  # Removed from every profile so all of them inherit from defaults.
+  enforceOnAllProfiles:
+    - colorScheme
+    - font.face
+    - opacity
+
+  # Added, or replaced when the id already exists.
+  actions:
+    - { id: User.focusLeft,  command: { action: moveFocus, direction: left } }
+    - { id: User.focusRight, command: { action: moveFocus, direction: right } }
+    - { id: User.focusUp,    command: { action: moveFocus, direction: up } }
+    - { id: User.focusDown,  command: { action: moveFocus, direction: down } }
+
+    - { id: User.resizeLeft,  command: { action: resizePane, direction: left } }
+    - { id: User.resizeRight, command: { action: resizePane, direction: right } }
+    - { id: User.resizeUp,    command: { action: resizePane, direction: up } }
+    - { id: User.resizeDown,  command: { action: resizePane, direction: down } }
+
+    - { id: User.swapLeft,  command: { action: swapPane, direction: left } }
+    - { id: User.swapRight, command: { action: swapPane, direction: right } }
+    - { id: User.swapUp,    command: { action: swapPane, direction: up } }
+    - { id: User.swapDown,  command: { action: swapPane, direction: down } }
+
+    - { id: User.splitRight, command: { action: splitPane, split: right } }
+    - { id: User.splitDown,  command: { action: splitPane, split: down } }
+    - { id: User.closePane,  command: closePane }
+
+    - { id: User.zoom,              command: togglePaneZoom }
+    - { id: User.toggleOrientation, command: toggleSplitOrientation }
+    - { id: User.broadcast,         command: toggleBroadcastInput }
+
+    - { id: User.moveToTab1, command: { action: movePane, index: 0 } }
+    - { id: User.moveToTab2, command: { action: movePane, index: 1 } }
+    - { id: User.moveToTab3, command: { action: movePane, index: 2 } }
+    - { id: User.moveToTab4, command: { action: movePane, index: 3 } }
+    - { id: User.moveToTab5, command: { action: movePane, index: 4 } }
+    - { id: User.moveToTab6, command: { action: movePane, index: 5 } }
+
+  # Added; an existing keybinding on the same keys is replaced.
+  # Built-in Terminal.* bindings are left to Windows Terminal defaults.
+  keybindings:
+    - { id: User.focusLeft,  keys: alt+left }
+    - { id: User.focusRight, keys: alt+right }
+    - { id: User.focusUp,    keys: alt+up }
+    - { id: User.focusDown,  keys: alt+down }
+
+    - { id: User.resizeLeft,  keys: alt+shift+left }
+    - { id: User.resizeRight, keys: alt+shift+right }
+    - { id: User.resizeUp,    keys: alt+shift+up }
+    - { id: User.resizeDown,  keys: alt+shift+down }
+
+    - { id: User.swapLeft,  keys: ctrl+alt+shift+left }
+    - { id: User.swapRight, keys: ctrl+alt+shift+right }
+    - { id: User.swapUp,    keys: ctrl+alt+shift+up }
+    - { id: User.swapDown,  keys: ctrl+alt+shift+down }
+
+    - { id: User.splitRight, keys: alt+shift+plus }
+    - { id: User.splitDown,  keys: alt+shift+minus }
+    - { id: User.closePane,  keys: ctrl+shift+w }
+
+    - { id: User.zoom,              keys: alt+shift+z }
+    - { id: User.toggleOrientation, keys: alt+shift+o }
+    - { id: User.broadcast,         keys: alt+shift+b }
+
+    - { id: User.moveToTab1, keys: alt+shift+1 }
+    - { id: User.moveToTab2, keys: alt+shift+2 }
+    - { id: User.moveToTab3, keys: alt+shift+3 }
+    - { id: User.moveToTab4, keys: alt+shift+4 }
+    - { id: User.moveToTab5, keys: alt+shift+5 }
+    - { id: User.moveToTab6, keys: alt+shift+6 }
+
+  # Color schemes, added or replaced by name. Schemes created in the
+  # Windows Terminal UI are left alone.
+  schemes:
+    # Aurora JetBrains theme (bxacosta/aurora-theme). Normal colors are its
+    # console palette; bright ones, which Aurora lacks, come from its syntax colors.
+    - name: Aurora
+      background: "#090A0C"           # editor background
+      foreground: "#E6EDF3"           # console normal output
+      cursorColor: "#CED0D6"          # caret
+      selectionBackground: "#1A2D42"  # selection
+      black: "#1F2328"                # borders (console black #000000 is invisible here)
+      red: "#EF596F"                  # console red
+      green: "#7EE787"                # console green
+      yellow: "#D29922"               # console yellow
+      blue: "#2F81F7"                 # console blue
+      purple: "#B392F0"               # followed links
+      cyan: "#A5D6FF"                 # console cyan
+      white: "#C9D1D9"                # value grey
+      brightBlack: "#68737E"          # comments (muted in Starship and fastfetch)
+      brightRed: "#FF7B72"            # entities, deleted lines
+      brightGreen: "#85E89D"          # tags
+      brightYellow: "#F7E9C6"         # bookmarks (cream)
+      brightBlue: "#8EC5FF"           # functions, constants (accent)
+      brightPurple: "#D4BFFF"         # strings
+      brightCyan: "#66FFE7"           # keywords
+      brightWhite: "#F0F6FC"          # text

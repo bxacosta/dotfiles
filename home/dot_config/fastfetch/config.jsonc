@@ -1,0 +1,54 @@
+// Fastfetch config. Colors are the terminal's 16 ANSI colors, defined once in the
+// Windows Terminal "Aurora" scheme (.chezmoidata/terminal.yaml):
+//   97 bright white  icons, titles         94 bright blue    item labels
+//   37 white         values                90 bright black   brackets, arrows
+//   usage            32 green low (<50%), 93 bright yellow mid, 91 bright red high (>80%)
+// Inside strings, "\u001b[...m" colors the text that follows: keys use it so
+// the label differs from the icon.
+{
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+
+  // Built-in OS logo; the padding lines it up with the OS row
+  "logo": { "padding": { "top": 2 } },
+
+  "display": {
+    "brightColor": false,
+    "separator": " → ",
+    "color": {
+      "keys": "97",
+      "output": "37",
+      "separator": "90"
+    },
+    "percent": {
+      "color": { "green": "32", "yellow": "93", "red": "91" }
+    }
+  },
+
+  "modules": [
+    { "type": "custom", "format": "\u001b[90m[\u001b[1;97mSystem\u001b[22;90m]\u001b[0m" },
+    // {icon} is fastfetch's own per-platform icon (Windows logo / Tux)
+    { "type": "os", "key": " {icon} \u001b[1;94mOS", "format": "{pretty-name}" },
+    { "type": "kernel", "key": "  \u001b[1;94mKernel", "format": "{release}" },
+    { "type": "uptime", "key": " 󰅐 \u001b[1;94mUptime" },
+    { "type": "shell", "key": "  \u001b[1;94mShell", "format": "{pretty-name} {version}" },
+    { "type": "localip", "key": " 󰌗 \u001b[1;94mNetwork" },
+    "break",
+
+    { "type": "custom", "format": "\u001b[90m[\u001b[1;97mDesktop\u001b[22;90m]\u001b[0m" },
+    { "type": "wm", "key": " 󱂫 \u001b[1;94mWM" },
+    { "type": "terminal", "key": "  \u001b[1;94mTerminal", "format": "{pretty-name} {version}" },
+    // Hidden on Linux: inside WSL fastfetch cannot read Windows Terminal's font
+    { "type": "terminalfont", "key": "  \u001b[1;94mFont", "condition": { "!system": "Linux" } },
+    { "type": "display", "key": " 󰍹 \u001b[1;94mDisplay", "format": "{width}x{height} @ {refresh-rate} Hz" },
+    "break",
+
+    { "type": "custom", "format": "\u001b[90m[\u001b[1;97mHardware\u001b[22;90m]\u001b[0m" },
+    { "type": "cpu", "key": "  \u001b[1;94mCPU" },
+    { "type": "gpu", "key": " 󰢮 \u001b[1;94mGPU", "format": "{name}" },
+    { "type": "memory", "key": "  \u001b[1;94mMemory" },
+    // Leading space lines its usage % up with Memory and Disk
+    { "type": "swap", "key": " 󰓡 \u001b[1;94mSwap", "format": " {used} / {total} ({percentage})" },
+    // Internal disks only
+    { "type": "disk", "key": " 󰋊 \u001b[1;94mDisk {mountpoint}", "showExternal": false, "format": "{size-used} / {size-total} ({size-percentage})" }
+  ]
+}
