@@ -5,4 +5,5 @@
 # Windows-only targets
 AppData
 Documents
+.config/powershell
 {{- end }}

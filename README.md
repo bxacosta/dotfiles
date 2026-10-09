@@ -23,14 +23,16 @@ Update later with `chezmoi update`.
 
 ## Contents
 
-| Tool                    | Platform | Managed                                                       |
-|-------------------------|----------|---------------------------------------------------------------|
-| Windows Terminal        | Windows  | Merged: actions, keybindings, profile defaults, Aurora scheme |
-| CaskaydiaMono Nerd Font | Windows  | Installed if missing (latest release)                         |
-| Starship                | Both     | Installed (winget / GitHub release), config fully managed     |
-| Fastfetch               | Both     | Installed (winget / GitHub release), config fully managed     |
-| PowerShell profile      | Windows  | Starship line only                                            |
-| `~/.bashrc`             | WSL      | Starship line only                                            |
+| Tool                      | Platform | Managed                                                       |
+|---------------------------|----------|---------------------------------------------------------------|
+| Windows Terminal          | Windows  | Merged: actions, keybindings, profile defaults, Aurora scheme |
+| CaskaydiaMono Nerd Font   | Windows  | Installed if missing (latest release)                         |
+| Starship                  | Both     | Installed (winget / GitHub release), config fully managed     |
+| Fastfetch                 | Both     | Installed (winget / GitHub release), config fully managed     |
+| Microsoft Edit            | Windows  | Installed (winget), preferred over the System32 copy          |
+| PowerShell profile        | Windows  | Shared profile line only                                      |
+| Shared PowerShell profile | Windows  | Fully managed: Starship, `cwd`, `edit` alias                  |
+| `~/.bashrc`               | WSL      | Starship line only                                            |
 
 Merged files keep everything not listed in the repo.
 
@@ -43,7 +45,7 @@ home/                               chezmoi source (.chezmoiroot)
   .chezmoiexternal.toml.tmpl        Linux binaries (Starship, Fastfetch)
   AppData/.../settings.json         Windows Terminal merge template
   Documents/PowerShell/...          PowerShell profile template
-  dot_config/                       Starship and Fastfetch config
+  dot_config/                       Starship, Fastfetch and shared PowerShell profile
   modify_dot_bashrc                 bashrc template
 tools/preview-terminal-colors.ps1   color scheme preview (not installed)
 ```
@@ -56,7 +58,7 @@ on [aurora-theme](https://github.com/bxacosta/aurora-theme). Starship and Fastfe
 ## Notes
 
 - PowerShell profile and `~/.bashrc` are created if missing.
-- Starship must load first in PowerShell; loading it later overwrites existing prompt hooks.
+- The shared profile must load first in PowerShell; loading Starship later overwrites existing prompt hooks.
 - Paths assume packaged Windows Terminal (not Preview) and `Documents` not redirected to OneDrive.
 
 ## References

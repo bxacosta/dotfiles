@@ -1,9 +1,13 @@
 # Packages installed by .chezmoiscripts/windows/run_before_20-install-packages.ps1.tmpl
 #   id:      winget package id (installed from the winget source, latest version)
 #   command: executable used to detect an existing install
+#   path:    file glob used instead of command (%LOCALAPPDATA% is expanded)
 packages:
   winget:
     - id: Fastfetch-cli.Fastfetch
       command: fastfetch
     - id: Starship.Starship
       command: starship
+    # An older edit.exe ships in System32, so the winget one is found by path
+    - id: Microsoft.Edit
+      path: "%LOCALAPPDATA%/Microsoft/WinGet/Packages/Microsoft.Edit_*/edit-*/edit.exe"
