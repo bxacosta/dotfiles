@@ -54,6 +54,10 @@ windowsTerminal:
     - { id: User.moveToTab4, command: { action: movePane, index: 3 } }
     - { id: User.moveToTab5, command: { action: movePane, index: 4 } }
     - { id: User.moveToTab6, command: { action: movePane, index: 5 } }
+    - { id: User.moveToTab7, command: { action: movePane, index: 6 } }
+    - { id: User.moveToTab8, command: { action: movePane, index: 7 } }
+    # An index past the last tab moves the pane to a new tab
+    - { id: User.moveToNewTab, command: { action: movePane, index: 99 } }
 
   # Added; an existing keybinding on the same keys is replaced.
   # Built-in Terminal.* bindings are left to Windows Terminal defaults.
@@ -87,6 +91,9 @@ windowsTerminal:
     - { id: User.moveToTab4, keys: alt+shift+4 }
     - { id: User.moveToTab5, keys: alt+shift+5 }
     - { id: User.moveToTab6, keys: alt+shift+6 }
+    - { id: User.moveToTab7, keys: alt+shift+7 }
+    - { id: User.moveToTab8, keys: alt+shift+8 }
+    - { id: User.moveToNewTab, keys: alt+shift+t }
 
   # Color schemes, added or replaced by name. Schemes created in the
   # Windows Terminal UI are left alone.
