@@ -29,9 +29,11 @@ Update later with `chezmoi update`.
 | CaskaydiaMono Nerd Font   | Windows  | Installed if missing (latest release)                         |
 | Starship                  | Both     | Installed (winget / GitHub release), config fully managed     |
 | Fastfetch                 | Both     | Installed (winget / GitHub release), config fully managed     |
+| PowerShell 7              | Windows  | Installed (winget), first package                             |
+| mise                      | Windows  | Installed (winget), activated in the shared profile           |
 | Microsoft Edit            | Windows  | Installed (winget), preferred over the System32 copy          |
 | PowerShell profile        | Windows  | Shared profile line only                                      |
-| Shared PowerShell profile | Windows  | Fully managed: Starship, `cwd`, `edit` alias                  |
+| Shared PowerShell profile | Windows  | Fully managed: Starship, mise, `cwd`, `edit`, `$HOME` start   |
 | `~/.bashrc`               | WSL      | Starship line only                                            |
 
 Merged files keep everything not listed in the repo.

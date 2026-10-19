@@ -9,6 +9,9 @@ if ($PWD.Path -ieq "$env:SystemRoot\System32") {
 # Starship prompt. First, so tools that wrap the prompt (loaded later) keep their hook.
 if (Get-Command starship -ErrorAction Ignore) { Invoke-Expression (&starship init powershell) }
 
+# mise wraps the prompt, so it goes after Starship
+if (Get-Command mise -ErrorAction Ignore) { (&mise activate pwsh) | Out-String | Invoke-Expression }
+
 function Copy-WorkingDirectory {
     (Get-Location).Path | Set-Clipboard
     Write-Host "Working directory copied to clipboard"

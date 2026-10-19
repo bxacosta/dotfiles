@@ -2,8 +2,14 @@
 #   id:      winget package id (installed from the winget source, latest version)
 #   command: executable used to detect an existing install
 #   path:    file glob used instead of command (%LOCALAPPDATA% is expanded)
+#   Installed in list order.
 packages:
   winget:
+    # PowerShell 7 first: the rest of the setup targets it
+    - id: Microsoft.PowerShell
+      command: pwsh
+    - id: jdx.mise
+      command: mise
     - id: Fastfetch-cli.Fastfetch
       command: fastfetch
     - id: Starship.Starship
