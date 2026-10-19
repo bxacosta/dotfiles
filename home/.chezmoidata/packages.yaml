@@ -14,6 +14,8 @@ packages:
       command: fastfetch
     - id: Starship.Starship
       command: starship
+    - id: sharkdp.bat
+      command: bat
     # An older edit.exe ships in System32, so the winget one is found by path
     - id: Microsoft.Edit
       path: "%LOCALAPPDATA%/Microsoft/WinGet/Packages/Microsoft.Edit_*/edit-*/edit.exe"

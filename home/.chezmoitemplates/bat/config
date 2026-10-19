@@ -1,0 +1,4 @@
+# bat config, installed in its config dir on each OS (see `bat --config-dir`).
+# Themes are compiled into bat's cache: the run_onchange_after bat-cache
+# scripts rebuild it when the theme changes.
+--theme="Aurora"

@@ -29,13 +29,14 @@ Update later with `chezmoi update`.
 | CaskaydiaMono Nerd Font   | Windows  | Installed if missing (latest release)                         |
 | Starship                  | Both     | Installed (winget / GitHub release), config fully managed     |
 | Fastfetch                 | Both     | Installed (winget / GitHub release), config fully managed     |
+| bat                       | Both     | Installed (winget / GitHub release), Aurora theme, `cat`      |
 | PowerShell 7              | Windows  | Installed (winget), first package                             |
-| mise                      | Windows  | Installed (winget), activated in the shared profile           |
+| mise                      | Both     | Installed (winget / GitHub release), activated by the shells  |
 | Microsoft Edit            | Windows  | Installed (winget), preferred over the System32 copy          |
 | PowerShell profile        | Windows  | Shared profile line only                                      |
 | Shared PowerShell profile | Windows  | Fully managed: Starship, mise, Terminal integration, aliases  |
-| mise config               | Windows  | `conf.d/dotfiles.toml` only (env); `config.toml` unmanaged    |
-| `~/.bashrc`               | WSL      | Starship line only                                            |
+| mise config               | Both     | `conf.d/dotfiles.toml` only (env); `config.toml` unmanaged    |
+| `~/.bashrc`               | WSL      | Lines only: mise, Starship, `COLORTERM`, `cat` alias          |
 
 Merged files keep everything not listed in the repo.
 
@@ -44,8 +45,9 @@ Merged files keep everything not listed in the repo.
 ```
 home/                               chezmoi source (.chezmoiroot)
   .chezmoidata/                     data: terminal settings, fonts, packages
-  .chezmoiscripts/windows/          font and winget installs
-  .chezmoiexternal.toml.tmpl        Linux binaries (Starship, Fastfetch)
+  .chezmoitemplates/bat/            bat config and Aurora theme (shared by both OSes)
+  .chezmoiscripts/                  font and winget installs, bat cache
+  .chezmoiexternal.toml.tmpl        Linux binaries (Starship, Fastfetch, bat, mise)
   AppData/.../settings.json         Windows Terminal merge template
   Documents/PowerShell/...          PowerShell profile template
   dot_config/                       Starship, Fastfetch, mise and shared PowerShell profile

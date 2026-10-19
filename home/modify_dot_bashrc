@@ -1,25 +1,41 @@
 {{- /* chezmoi:modify-template */ -}}
 {{- /*
-  Only makes sure ~/.bashrc starts Starship; the rest of the file (Ubuntu's
+  Only makes sure ~/.bashrc has the lines below; the rest of the file (Ubuntu's
   defaults, mise, anything machine-specific) is left untouched. A line added
-  earlier by this template (found by its comment) is kept up to date; a
-  Starship init written by hand is left alone.
+  earlier by this template (found by its comment) is kept up to date; one
+  written by hand (found by its marker) is left alone. Missing lines are
+  appended in this order.
 
-  In bash the line goes last: Starship keeps hooks already in PROMPT_COMMAND
-  (like mise's), so they keep working.
+  Starship goes after any prompt hook: it keeps hooks already in
+  PROMPT_COMMAND (like mise's), so they keep working. Lines that are not
+  prompt hooks can go after it.
 */ -}}
-{{- $comment := "# Starship prompt (added by chezmoi)" -}}
-{{- $line := `command -v starship >/dev/null && eval "$(starship init bash)"` -}}
+{{- $lines := list
+      (dict "comment" "# 24-bit color for bat and others; Windows Terminal does not set it (added by chezmoi)"
+            "line" `[ -z "$COLORTERM" ] && export COLORTERM=truecolor`
+            "marker" "COLORTERM=")
+      (dict "comment" "# bat instead of cat, without a pager (added by chezmoi)"
+            "line" `command -v bat >/dev/null && alias cat='bat --paging=never'`
+            "marker" "alias cat=")
+      (dict "comment" "# mise (added by chezmoi)"
+            "line" `command -v mise >/dev/null && eval "$(mise activate bash)"`
+            "marker" "mise activate bash")
+      (dict "comment" "# Starship prompt (added by chezmoi)"
+            "line" `command -v starship >/dev/null && eval "$(starship init bash)"`
+            "marker" "starship init bash") -}}
 {{- $content := .chezmoi.stdin -}}
-{{- if contains $comment $content -}}
-{{-   $content = replaceAllRegex (printf "(%s\n)[^\n]*" (regexQuoteMeta $comment)) (printf "${1}%s" $line) $content -}}
-{{- else if not (contains "starship init bash" $content) -}}
-{{-   if $content -}}
-{{-     if not (hasSuffix "\n" $content) -}}
+{{- range $lines -}}
+{{-   if contains .comment $content -}}
+{{- /*    $ in the replacement expands regex groups, so the line's own $ are doubled */ -}}
+{{-     $content = replaceAllRegex (printf "(%s\n)[^\n]*" (regexQuoteMeta .comment)) (printf "${1}%s" (replace "$" "$$" .line)) $content -}}
+{{-   else if not (contains .marker $content) -}}
+{{-     if $content -}}
+{{-       if not (hasSuffix "\n" $content) -}}
+{{-         $content = printf "%s\n" $content -}}
+{{-       end -}}
 {{-       $content = printf "%s\n" $content -}}
 {{-     end -}}
-{{-     $content = printf "%s\n" $content -}}
+{{-     $content = printf "%s%s\n%s\n" $content .comment .line -}}
 {{-   end -}}
-{{-   $content = printf "%s%s\n%s\n" $content $comment $line -}}
 {{- end -}}
 {{- $content -}}

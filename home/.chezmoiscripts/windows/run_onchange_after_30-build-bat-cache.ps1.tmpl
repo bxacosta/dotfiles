@@ -1,0 +1,13 @@
+{{- /*
+  Rebuilds bat's cache, which is where bat reads custom themes from.
+  Runs again whenever the theme changes (its hash is below).
+*/ -}}
+{{- if eq .chezmoi.os "windows" -}}
+# Aurora.tmTheme hash: {{ include ".chezmoitemplates/bat/Aurora.tmTheme" | sha256sum }}
+$ErrorActionPreference = 'Stop'
+
+if (Get-Command bat -ErrorAction Ignore) {
+    bat cache --build | Out-Null
+    if ($LASTEXITCODE -ne 0) { throw "bat cache --build failed (exit code $LASTEXITCODE)" }
+}
+{{- end -}}
