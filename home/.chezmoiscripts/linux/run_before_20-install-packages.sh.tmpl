@@ -1,15 +1,18 @@
 {{- /*
-  Installs the GitHub release packages in .chezmoidata/packages.yaml into
-  ~/.local/bin, only when missing. Installed packages are detected while
+  Installs the Linux packages in .chezmoidata/packages.yaml that update
+  themselves (no `update` key) into ~/.local/bin, only when missing. Installed packages are detected while
   rendering (command found in PATH or in ~/.local/bin): if nothing is missing
   the script renders empty, chezmoi skips it, and the GitHub API is not called.
-  The installed binaries are not managed afterwards: each tool is updated its
-  own way (mise self-update, or a newer release by hand).
+  The installed binaries are not managed afterwards: each tool updates itself
+  (mise self-update). Packages with `update` are chezmoi externals instead.
 */ -}}
 {{- if eq .chezmoi.os "linux" -}}
 {{-   $binDir := joinPath .chezmoi.homeDir ".local/bin" -}}
 {{-   $missing := list -}}
 {{-   range .packages.github -}}
+{{-     if hasKey . "update" -}}
+{{-       continue -}}
+{{-     end -}}
 {{-     if not (or (lookPath .command) (stat (joinPath $binDir .command))) -}}
 {{-       $missing = append $missing . -}}
 {{-     end -}}

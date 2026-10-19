@@ -1,0 +1,28 @@
+{{- /*
+  Linux packages in .chezmoidata/packages.yaml marked `update`: tools with no
+  way to update themselves, kept by chezmoi at their latest GitHub release in
+  ~/.local/bin. refreshPeriod makes `chezmoi apply` check for a new release at
+  most weekly (`chezmoi apply --refresh-externals` checks now).
+  An asset name with a version (a glob) is resolved through the GitHub API,
+  so it is checked on every apply instead.
+  The rest are installed once by .chezmoiscripts/linux/run_before_20-install-packages.sh.tmpl.
+*/ -}}
+{{- if eq .chezmoi.os "linux" -}}
+{{-   range .packages.github -}}
+{{-     if hasKey . "update" -}}
+{{-       $asset := get .asset $.chezmoi.arch -}}
+{{-       $url := printf "https://github.com/%s/releases/latest/download/%s" .repo $asset -}}
+{{-       if contains "*" $asset -}}
+{{-         $url = gitHubLatestReleaseAssetURL .repo $asset -}}
+{{-       end }}
+
+[".local/bin/{{ .command }}"]
+type = "archive-file"
+url = {{ $url | quote }}
+path = {{ .update.path | quote }}
+stripComponents = {{ .update.stripComponents }}
+executable = true
+refreshPeriod = "168h"
+{{-     end -}}
+{{-   end }}
+{{ end -}}

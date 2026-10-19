@@ -21,6 +21,8 @@ sh -c "$(curl -fsLS get.chezmoi.io)" -- -b ~/.local/bin init --apply bxacosta
 
 Update the configs later with `chezmoi update`. Tools are only installed when missing;
 after that each one is updated its own way (`winget upgrade`, `mise self-update`, ...).
+On WSL, tools with no way to update themselves (Starship, Fastfetch, bat) are kept at
+their latest release by chezmoi, checked weekly on `chezmoi apply`.
 
 ## Contents
 
@@ -48,6 +50,7 @@ home/                               chezmoi source (.chezmoiroot)
   .chezmoidata/                     data: terminal settings, fonts, packages
   .chezmoitemplates/bat/            bat config and Aurora theme (shared by both OSes)
   .chezmoiscripts/                  installs (winget / GitHub releases, fonts), bat cache
+  .chezmoiexternal.toml.tmpl        Linux tools kept up to date (Starship, Fastfetch, bat)
   AppData/.../settings.json         Windows Terminal merge template
   Documents/PowerShell/...          PowerShell profile template
   dot_config/                       Starship, Fastfetch, mise and shared PowerShell profile
