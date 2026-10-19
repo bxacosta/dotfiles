@@ -9,6 +9,15 @@ if ($PWD.Path -ieq "$env:SystemRoot\System32") {
 # Starship prompt. First, so tools that wrap the prompt (loaded later) keep their hook.
 if (Get-Command starship -ErrorAction Ignore) { Invoke-Expression (&starship init powershell) }
 
+# Report the cwd to Windows Terminal (OSC 9;9) so duplicated panes and tabs open in it.
+# Starship calls this before every prompt.
+function Invoke-Starship-PreCommand {
+    $loc = $ExecutionContext.SessionState.Path.CurrentLocation
+    if ($loc.Provider.Name -eq "FileSystem") {
+        $Host.UI.Write("$([char]27)]9;9;`"$($loc.ProviderPath)`"$([char]27)\")
+    }
+}
+
 # mise wraps the prompt, so it goes after Starship
 if (Get-Command mise -ErrorAction Ignore) { (&mise activate pwsh) | Out-String | Invoke-Expression }
 
