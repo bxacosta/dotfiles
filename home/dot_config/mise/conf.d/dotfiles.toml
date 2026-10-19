@@ -1,0 +1,9 @@
+# Shared mise config, loaded alongside ~/.config/mise/config.toml.
+# [tools] stays in config.toml, unmanaged, so `mise use -g` keeps working.
+
+[env]
+# global commands installed with `bun link` / `bun add -g`
+_.path = ["~/.bun/bin"]
+# uv uses the mise Python and never downloads its own
+UV_NO_MANAGED_PYTHON = "1"
+UV_PYTHON_DOWNLOADS = "never"

@@ -34,6 +34,7 @@ Update later with `chezmoi update`.
 | Microsoft Edit            | Windows  | Installed (winget), preferred over the System32 copy          |
 | PowerShell profile        | Windows  | Shared profile line only                                      |
 | Shared PowerShell profile | Windows  | Fully managed: Starship, mise, `cwd`, `edit`, `$HOME` start   |
+| mise config               | Windows  | `conf.d/dotfiles.toml` only (env); `config.toml` unmanaged    |
 | `~/.bashrc`               | WSL      | Starship line only                                            |
 
 Merged files keep everything not listed in the repo.
@@ -47,7 +48,7 @@ home/                               chezmoi source (.chezmoiroot)
   .chezmoiexternal.toml.tmpl        Linux binaries (Starship, Fastfetch)
   AppData/.../settings.json         Windows Terminal merge template
   Documents/PowerShell/...          PowerShell profile template
-  dot_config/                       Starship, Fastfetch and shared PowerShell profile
+  dot_config/                       Starship, Fastfetch, mise and shared PowerShell profile
   modify_dot_bashrc                 bashrc template
 tools/preview-terminal-colors.ps1   color scheme preview (not installed)
 ```

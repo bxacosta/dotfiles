@@ -6,4 +6,5 @@
 AppData
 Documents
 .config/powershell
+.config/mise
 {{- end }}
