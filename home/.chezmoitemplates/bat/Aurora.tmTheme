@@ -231,6 +231,41 @@
       </dict>
     </dict>
 
+    <!-- Per-language rules: exceptions to the general rules above -->
+    <dict>
+      <key>name</key>
+      <string>Data files: strings</string>
+      <key>scope</key>
+      <string>source.json string, source.yaml string, source.toml string, source.json punctuation.definition.string, source.yaml punctuation.definition.string, source.toml punctuation.definition.string</string>
+      <key>settings</key>
+      <dict>
+        <key>foreground</key>
+        <string>#E4F0FB</string>
+      </dict>
+    </dict>
+    <dict>
+      <key>name</key>
+      <string>Data files: keys (YAML marks only unquoted keys)</string>
+      <key>scope</key>
+      <string>source.json meta.mapping.key string, source.json meta.mapping.key punctuation.definition.string, source.yaml entity.name.tag, source.toml entity.name.tag</string>
+      <key>settings</key>
+      <dict>
+        <key>foreground</key>
+        <string>#8EC5FF</string>
+      </dict>
+    </dict>
+    <dict>
+      <key>name</key>
+      <string>Data files: numbers, booleans, null and dates</string>
+      <key>scope</key>
+      <string>source.json constant.numeric, source.json constant.language, source.yaml constant.numeric, source.yaml constant.language, source.toml constant.numeric, source.toml constant.language, source.toml constant.other</string>
+      <key>settings</key>
+      <dict>
+        <key>foreground</key>
+        <string>#D4BFFF</string>
+      </dict>
+    </dict>
+
     <dict>
       <key>name</key>
       <string>Invalid</string>
