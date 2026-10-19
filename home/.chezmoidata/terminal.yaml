@@ -8,6 +8,9 @@ windowsTerminal:
     colorScheme: Aurora       # defined in schemes below
     font.face: CaskaydiaMono Nerd Font
     opacity: 90
+    # Shell integration marks; PowerShell sends them from the shared profile
+    showMarksOnScrollbar: true
+    autoMarkPrompts: true
     startingDirectory: null   # null = inherit the launching process's directory
 
   # Settings for specific profiles, matched by source and name (stable across
@@ -59,6 +62,10 @@ windowsTerminal:
     # An index past the last tab moves the pane to a new tab
     - { id: User.moveToNewTab, command: { action: movePane, index: 99 } }
 
+    # Jump between commands (needs the shell integration marks)
+    - { id: User.prevCommand, command: { action: scrollToMark, direction: previous } }
+    - { id: User.nextCommand, command: { action: scrollToMark, direction: next } }
+
   # Added; an existing keybinding on the same keys is replaced.
   # Built-in Terminal.* bindings are left to Windows Terminal defaults.
   keybindings:
@@ -94,6 +101,9 @@ windowsTerminal:
     - { id: User.moveToTab7, keys: alt+shift+7 }
     - { id: User.moveToTab8, keys: alt+shift+8 }
     - { id: User.moveToNewTab, keys: alt+shift+t }
+
+    - { id: User.prevCommand, keys: ctrl+up }
+    - { id: User.nextCommand, keys: ctrl+down }
 
   # Color schemes, added or replaced by name. Schemes created in the
   # Windows Terminal UI are left alone.

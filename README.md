@@ -33,7 +33,7 @@ Update later with `chezmoi update`.
 | mise                      | Windows  | Installed (winget), activated in the shared profile           |
 | Microsoft Edit            | Windows  | Installed (winget), preferred over the System32 copy          |
 | PowerShell profile        | Windows  | Shared profile line only                                      |
-| Shared PowerShell profile | Windows  | Fully managed: Starship, mise, `cwd`, `edit`, `$HOME` start   |
+| Shared PowerShell profile | Windows  | Fully managed: Starship, mise, Terminal integration, aliases  |
 | mise config               | Windows  | `conf.d/dotfiles.toml` only (env); `config.toml` unmanaged    |
 | `~/.bashrc`               | WSL      | Starship line only                                            |
 
