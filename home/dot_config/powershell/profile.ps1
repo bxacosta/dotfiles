@@ -1,6 +1,11 @@
 # Shared PowerShell profile, loaded from $PROFILE (see the modify_ template).
 # Runs before the rest of $PROFILE.
 
+# Start in $HOME instead of System32 (e.g. when launched elevated or from Win+R)
+if ($PWD.Path -ieq "$env:SystemRoot\System32") {
+    Set-Location $HOME
+}
+
 # Starship prompt. First, so tools that wrap the prompt (loaded later) keep their hook.
 if (Get-Command starship -ErrorAction Ignore) { Invoke-Expression (&starship init powershell) }
 
