@@ -1,0 +1,39 @@
+{{- /*
+  Installs the GitHub release packages in .chezmoidata/packages.yaml into
+  ~/.local/bin, only when missing. Installed packages are detected while
+  rendering (command found in PATH or in ~/.local/bin): if nothing is missing
+  the script renders empty, chezmoi skips it, and the GitHub API is not called.
+  The installed binaries are not managed afterwards: each tool is updated its
+  own way (mise self-update, or a newer release by hand).
+*/ -}}
+{{- if eq .chezmoi.os "linux" -}}
+{{-   $binDir := joinPath .chezmoi.homeDir ".local/bin" -}}
+{{-   $missing := list -}}
+{{-   range .packages.github -}}
+{{-     if not (or (lookPath .command) (stat (joinPath $binDir .command))) -}}
+{{-       $missing = append $missing . -}}
+{{-     end -}}
+{{-   end -}}
+{{-   if $missing -}}
+#!/bin/sh
+set -eu
+
+bin_dir={{ $binDir | quote }}
+mkdir -p "$bin_dir"
+
+# install_release COMMAND URL: extracts the executable named COMMAND from the archive
+install_release() {
+    echo "Installing $1..."
+    tmp=$(mktemp -d)
+    curl -fsSL "$2" | tar -xz -C "$tmp"
+    file=$(find "$tmp" -type f -name "$1" -perm -u+x | head -n 1)
+    [ -n "$file" ] || { echo "$1 not found in $2" >&2; exit 1; }
+    install -m 755 "$file" "$bin_dir/$1"
+    rm -rf "$tmp"
+}
+
+{{     range $missing -}}
+install_release {{ .command | quote }} {{ gitHubLatestReleaseAssetURL .repo (get .asset $.chezmoi.arch) | quote }}
+{{     end -}}
+{{-   end -}}
+{{- end -}}

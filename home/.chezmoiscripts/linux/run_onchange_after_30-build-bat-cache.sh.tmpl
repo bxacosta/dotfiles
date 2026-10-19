@@ -7,7 +7,7 @@
 # Aurora.tmTheme hash: {{ include ".chezmoitemplates/bat/Aurora.tmTheme" | sha256sum }}
 set -e
 
-bat="$HOME/.local/bin/bat"
+bat=$(command -v bat || echo "$HOME/.local/bin/bat")
 if [ -x "$bat" ]; then
     "$bat" cache --build >/dev/null
 fi

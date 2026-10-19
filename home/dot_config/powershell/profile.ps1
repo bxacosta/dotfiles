@@ -51,12 +51,6 @@ function global:prompt { "$(& $Global:__PromptWithoutMarks)$([char]27)]133;B$([c
 # and others fall back to 256 colors and miss the exact Aurora colors
 if (-not $env:COLORTERM) { $env:COLORTERM = "truecolor" }
 
-# bat instead of cat (Get-Content), without a pager like cat
-if (Get-Command bat -ErrorAction Ignore) {
-    Remove-Item Alias:cat -Force -ErrorAction Ignore
-    function cat { bat --paging=never @args }
-}
-
 function Copy-WorkingDirectory {
     (Get-Location).Path | Set-Clipboard
     Write-Host "Working directory copied to clipboard"

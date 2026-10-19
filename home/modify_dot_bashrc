@@ -14,9 +14,6 @@
       (dict "comment" "# 24-bit color for bat and others; Windows Terminal does not set it (added by chezmoi)"
             "line" `[ -z "$COLORTERM" ] && export COLORTERM=truecolor`
             "marker" "COLORTERM=")
-      (dict "comment" "# bat instead of cat, without a pager (added by chezmoi)"
-            "line" `command -v bat >/dev/null && alias cat='bat --paging=never'`
-            "marker" "alias cat=")
       (dict "comment" "# mise (added by chezmoi)"
             "line" `command -v mise >/dev/null && eval "$(mise activate bash)"`
             "marker" "mise activate bash")
