@@ -1,0 +1,4 @@
+# bat config, copied to its config dir on each OS (see `bat --config-dir`).
+# Themes are compiled into bat's cache: the setup scripts rebuild it when the
+# theme changes.
+--theme="Aurora"

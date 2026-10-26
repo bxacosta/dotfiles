@@ -1,9 +1,0 @@
-# Fonts installed by .chezmoiscripts/windows/run_before_10-install-fonts.ps1.tmpl
-# when missing. The download is verified against the release's checksums file.
-#   filePattern: files to install (also used to detect an existing install)
-fonts:
-  # Only the regular family: the Mono variant shrinks icons, Propo is not monospaced.
-  - name: CaskaydiaMono Nerd Font
-    url: https://github.com/ryanoasis/nerd-fonts/releases/latest/download/CascadiaMono.zip
-    checksums: https://github.com/ryanoasis/nerd-fonts/releases/latest/download/SHA-256.txt
-    filePattern: CaskaydiaMonoNerdFont-*.ttf
